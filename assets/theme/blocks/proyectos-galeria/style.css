@@ -1,0 +1,114 @@
+/**
+ * Proyectos realizados: filtros tipo "chip" y rejilla de fotos.
+ */
+.setin-projects__filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+	margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.setin-chip {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	padding: .5rem 1.1rem;
+	border: 1.5px solid var(--wp--preset--color--line);
+	border-radius: 999px;
+	color: var(--wp--preset--color--contrast);
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1rem;
+	font-weight: 600;
+	letter-spacing: .04em;
+	text-decoration: none;
+	text-transform: uppercase;
+	transition: background var(--wp--custom--transition), border-color var(--wp--custom--transition);
+}
+
+.setin-chip:hover,
+.setin-chip:focus-visible {
+	border-color: var(--wp--preset--color--contrast);
+}
+
+.setin-chip[aria-current="true"] {
+	border-color: var(--wp--preset--color--contrast);
+	background: var(--wp--preset--color--contrast);
+	color: var(--wp--preset--color--base);
+}
+
+.setin-projects__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: clamp(1.25rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+@media (min-width: 700px) {
+	.setin-projects__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1100px) {
+	.setin-projects__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.setin-project[hidden] { display: none; }
+
+.setin-project__link {
+	display: grid;
+	gap: .9rem;
+	color: inherit;
+	text-decoration: none;
+}
+
+.setin-project__media {
+	display: block;
+	overflow: hidden;
+	aspect-ratio: 4 / 3;
+	border-radius: var(--wp--custom--radius--card, 26px);
+	background: var(--wp--preset--color--surface);
+}
+
+.setin-project__img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 700ms cubic-bezier(.2, .7, .2, 1);
+}
+
+.setin-project__link:hover .setin-project__img,
+.setin-project__link:focus-visible .setin-project__img {
+	transform: scale(1.05);
+}
+
+.setin-project__link:focus-visible {
+	outline: 3px solid var(--wp--preset--color--accent);
+	outline-offset: 4px;
+	border-radius: var(--wp--custom--radius--card, 26px);
+}
+
+.setin-project__meta {
+	display: grid;
+	gap: .2rem;
+}
+
+.setin-project__cat {
+	color: var(--wp--preset--color--graphite);
+	font-size: .8125rem;
+	font-weight: 600;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.setin-project__title {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1.1;
+}
+
+.setin-project__place {
+	color: var(--wp--preset--color--graphite);
+	font-size: .9375rem;
+}

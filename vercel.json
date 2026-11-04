@@ -1,0 +1,146 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "redirects": [
+    {
+      "source": "/instalaciones",
+      "destination": "/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/instalaciones/",
+      "destination": "/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/otros",
+      "destination": "/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/otros/",
+      "destination": "/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/otros-servicios",
+      "destination": "/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/otros-servicios/",
+      "destination": "/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/en/other-services",
+      "destination": "/en/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/en/other-services/",
+      "destination": "/en/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/servicios/instalacion-de-moqueta-para-eventos",
+      "destination": "/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/servicios/instalacion-de-moqueta-para-eventos/",
+      "destination": "/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/servicios/instalacion-de-suelo-en-centros-comerciales",
+      "destination": "/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/servicios/instalacion-de-suelo-en-centros-comerciales/",
+      "destination": "/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/servicios/montaje-de-mobiliario-para-colegios",
+      "destination": "/servicios/montaje-de-oficinas/",
+      "permanent": true
+    },
+    {
+      "source": "/servicios/montaje-de-mobiliario-para-colegios/",
+      "destination": "/servicios/montaje-de-oficinas/",
+      "permanent": true
+    },
+    {
+      "source": "/servicios/montaje-de-corporeos",
+      "destination": "/servicios/montaje-de-oficinas/",
+      "permanent": true
+    },
+    {
+      "source": "/servicios/montaje-de-corporeos/",
+      "destination": "/servicios/montaje-de-oficinas/",
+      "permanent": true
+    },
+    {
+      "source": "/en/servicios/event-carpet-installation",
+      "destination": "/en/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/en/servicios/event-carpet-installation/",
+      "destination": "/en/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/en/servicios/shopping-centre-flooring-installation",
+      "destination": "/en/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/en/servicios/shopping-centre-flooring-installation/",
+      "destination": "/en/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/en/servicios/school-furniture-installation",
+      "destination": "/en/servicios/office-fit-out/",
+      "permanent": true
+    },
+    {
+      "source": "/en/servicios/school-furniture-installation/",
+      "destination": "/en/servicios/office-fit-out/",
+      "permanent": true
+    },
+    {
+      "source": "/en/servicios/3d-letter-and-logo-installation",
+      "destination": "/en/servicios/office-fit-out/",
+      "permanent": true
+    },
+    {
+      "source": "/en/servicios/3d-letter-and-logo-installation/",
+      "destination": "/en/servicios/office-fit-out/",
+      "permanent": true
+    },
+    {
+      "source": "/servicios/hoteles-y-restaurantes",
+      "destination": "/servicios/montaje-de-vinilos/",
+      "permanent": true
+    },
+    {
+      "source": "/servicios/hoteles-y-restaurantes/",
+      "destination": "/servicios/montaje-de-vinilos/",
+      "permanent": true
+    },
+    {
+      "source": "/en/servicios/hotels-and-restaurants",
+      "destination": "/en/servicios/vinyl-installation/",
+      "permanent": true
+    },
+    {
+      "source": "/en/servicios/hotels-and-restaurants/",
+      "destination": "/en/servicios/vinyl-installation/",
+      "permanent": true
+    }
+  ]
+}

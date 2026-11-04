@@ -1,0 +1,54 @@
+/**
+ * Ficha de servicio: intro, "Qué incluye" y banda de llamada a la acción.
+ */
+.setin-ficha-intro__num {
+	margin: 0 0 .75rem;
+	color: var(--wp--preset--color--accent);
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1.25rem;
+	font-weight: 700;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+}
+
+.setin-ficha-intro__desc {
+	max-width: 46ch;
+	margin: 0;
+	font-size: var(--wp--preset--font-size--large);
+	line-height: 1.5;
+}
+
+.setin-ficha-puntos__title {
+	margin: 0 0 1.25rem;
+	font-size: var(--wp--preset--font-size--x-large);
+}
+
+.setin-ficha-cta {
+	display: grid;
+	gap: 1.5rem;
+	align-items: center;
+	padding: clamp(1.75rem, 4vw, 3rem);
+	border-radius: var(--wp--custom--radius--card, 26px);
+	background: var(--wp--preset--color--contrast);
+	color: #e6e6e3;
+}
+
+@media (min-width: 900px) {
+	.setin-ficha-cta { grid-template-columns: 1.4fr 1fr; }
+	.setin-ficha-cta__actions { justify-content: flex-end; }
+}
+
+.setin-ficha-cta__title {
+	margin: 0 0 .5rem;
+	color: var(--wp--preset--color--base);
+	font-size: var(--wp--preset--font-size--x-large);
+	text-transform: none;
+}
+
+.setin-ficha-cta__text p { margin: 0; }
+
+.setin-ficha-cta__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .75rem;
+}

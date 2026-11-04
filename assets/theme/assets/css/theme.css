@@ -1,0 +1,1924 @@
+/**
+ * SETIN – estilos globales que theme.json no cubre.
+ *
+ * Índice:
+ * 1. Base y accesibilidad
+ * 2. Utilidades (eyebrow, botones, texto contorneado)
+ * 3. Cabecera y navegación
+ * 4. Hero
+ * 5. Cifras, pilares y bloques de la portada
+ * 6. Formulario de presupuesto (Contact Form 7)
+ * 7. Pie
+ * 8. Botones flotantes (WhatsApp / llamar)
+ * 9. Páginas más cortas (rejillas densas y carruseles en móvil)
+ */
+
+/* 1. Base y accesibilidad ------------------------------------------------ */
+
+html { scroll-padding-top: calc(var(--wp--custom--header-height) + 1rem); }
+
+body {
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+img { height: auto; }
+
+:where(a, button, input, select, textarea, summary):focus-visible {
+	outline: 3px solid var(--wp--preset--color--accent);
+	outline-offset: 3px;
+}
+
+/* Texto solo para lectores de pantalla */
+.setin-sr {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.skip-link.screen-reader-text:focus {
+	z-index: 100000;
+	padding: 1rem 1.5rem;
+	background: var(--wp--preset--color--accent);
+	color: var(--wp--preset--color--contrast);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		scroll-behavior: auto !important;
+		transition-duration: .01ms !important;
+		animation-duration: .01ms !important;
+	}
+}
+
+/* 2. Utilidades ------------------------------------------------------------ */
+
+.setin-eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: .6rem;
+	margin-bottom: 0;
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+
+.setin-eyebrow::before {
+	content: "";
+	width: 2rem;
+	height: 3px;
+	background: var(--wp--preset--color--accent);
+}
+
+/* Texto contorneado, recogido del claim de la web actual ("concepto", "innovación"). */
+/* El trazo necesita un color explícito: currentColor sería el propio "transparent". */
+.setin-outline {
+	color: transparent;
+	-webkit-text-stroke: 1.5px var(--wp--preset--color--carbon);
+	paint-order: stroke fill;
+}
+
+.has-base-color .setin-outline,
+.has-base-color.setin-outline,
+.has-contrast-background-color .setin-outline,
+.is-style-section-dark .setin-outline {
+	-webkit-text-stroke-color: var(--wp--preset--color--base);
+}
+
+.setin-btn {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .6rem;
+	min-height: 48px;
+	padding: .95rem 1.75rem;
+	border: 2px solid transparent;
+	border-radius: 999px;
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1.125rem;
+	font-weight: 700;
+	letter-spacing: .04em;
+	line-height: 1;
+	text-decoration: none;
+	text-transform: uppercase;
+	transition: background var(--wp--custom--transition), color var(--wp--custom--transition), border-color var(--wp--custom--transition);
+}
+
+.setin-btn--accent { background: var(--wp--preset--color--accent); color: var(--wp--preset--color--contrast); }
+.setin-btn--accent:hover, .setin-btn--accent:focus-visible { background: var(--wp--preset--color--base); }
+.setin-btn--ghost { border-color: rgba(255, 255, 255, .5); color: var(--wp--preset--color--base); }
+.setin-btn--ghost:hover, .setin-btn--ghost:focus-visible { border-color: var(--wp--preset--color--base); background: var(--wp--preset--color--base); color: var(--wp--preset--color--contrast); }
+
+/* Botón "Déjanos tu reseña en Google" ([setin_resena]) */
+.setin-btn--review svg { flex: none; color: var(--wp--preset--color--accent); }
+
+.setin-btn--review-claro {
+	border-color: var(--wp--preset--color--line);
+	background: var(--wp--preset--color--base);
+	color: var(--wp--preset--color--contrast);
+}
+
+.setin-btn--review-claro:hover,
+.setin-btn--review-claro:focus-visible {
+	border-color: var(--wp--preset--color--contrast);
+	background: var(--wp--preset--color--contrast);
+	color: var(--wp--preset--color--base);
+}
+
+.setin-btn--review-oscuro {
+	border-color: rgba(255, 255, 255, .35);
+	color: var(--wp--preset--color--base);
+}
+
+.setin-btn--review-oscuro:hover,
+.setin-btn--review-oscuro:focus-visible {
+	border-color: var(--wp--preset--color--accent);
+	color: var(--wp--preset--color--base);
+}
+
+/* Botón secundario de los bloques core (estilo "outline") */
+.wp-block-button.is-style-outline > .wp-block-button__link {
+	border: 2px solid currentColor;
+	background: transparent;
+	color: inherit;
+}
+
+.wp-block-button.is-style-outline > .wp-block-button__link:hover,
+.wp-block-button.is-style-outline > .wp-block-button__link:focus-visible {
+	border-color: var(--wp--preset--color--base);
+	background: var(--wp--preset--color--base);
+	color: var(--wp--preset--color--contrast);
+}
+
+/* Botón principal sobre fondo claro: al pasar el ratón pasa a negro. */
+.has-base-background-color .wp-block-button:not(.is-style-outline) > .wp-block-button__link:hover,
+.has-surface-background-color .wp-block-button:not(.is-style-outline) > .wp-block-button__link:hover,
+.is-style-section-light .wp-block-button:not(.is-style-outline) > .wp-block-button__link:hover {
+	background: var(--wp--preset--color--contrast);
+	color: var(--wp--preset--color--base);
+}
+
+/* Lista con check amarillo (se usa en fichas, páginas y patrones) */
+.setin-checklist {
+	display: grid;
+	gap: .85rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.setin-checklist li {
+	position: relative;
+	padding-left: 2.1rem;
+	line-height: 1.5;
+}
+
+.setin-checklist li::before {
+	content: "";
+	position: absolute;
+	top: .15em;
+	left: 0;
+	width: 1.35rem;
+	height: 1.35rem;
+	border-radius: 50%;
+	background: var(--wp--preset--color--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m6 12.5 4 4 8-9' fill='none' stroke='%23161616' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 70% no-repeat;
+}
+
+/* 3. Cabecera y navegación -------------------------------------------------- */
+
+/*
+ * La cabecera fija va en el <header> que el sistema pone alrededor de la parte de plantilla:
+ * un sticky dentro de ese envoltorio (que mide lo mismo que él) no llega a quedarse fijo.
+ */
+.wp-site-blocks > header.wp-block-template-part {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+}
+
+body.admin-bar .wp-site-blocks > header.wp-block-template-part { top: var(--wp-admin--admin-bar--height, 0); }
+
+/* En móvil la barra de administración no es fija: la cabecera debe pegarse arriba del todo. */
+@media (max-width: 600px) {
+	body.admin-bar .wp-site-blocks > header.wp-block-template-part { top: 0; }
+}
+
+.setin-header {
+	transition: box-shadow var(--wp--custom--transition), background var(--wp--custom--transition);
+}
+
+.setin-header.is-scrolled { box-shadow: 0 6px 24px rgba(0, 0, 0, .25); }
+
+.setin-header__inner { min-height: var(--wp--custom--header-height); }
+
+.setin-header .wp-block-site-logo img { width: auto; max-height: 52px; }
+
+.setin-header .wp-block-navigation a:not(.wp-element-button) { text-decoration: none; }
+
+.setin-header .wp-block-navigation-item__content { padding-block: .4rem; border-bottom: 2px solid transparent; }
+
+/* Sin JavaScript: subrayado estático bajo la sección actual. */
+.setin-header .wp-block-navigation__container:not(.has-indicator) .wp-block-navigation-item__content:hover,
+.setin-header .wp-block-navigation__container:not(.has-indicator) .current-menu-item > .wp-block-navigation-item__content,
+.setin-header .wp-block-navigation__container:not(.has-indicator) .wp-block-navigation-item__content[aria-current="page"] {
+	border-bottom-color: var(--wp--preset--color--accent);
+}
+
+/*
+ * Barra deslizante (front.js). Se mueve con left/right para poder "estirarse": en cada viaje
+ * el extremo delantero arranca antes que el trasero.
+ */
+.setin-header .wp-block-navigation__container.has-indicator { position: relative; }
+
+.setin-nav-indicator {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 100%;
+	height: 3px;
+	border-radius: 3px;
+	background: var(--wp--preset--color--accent);
+	box-shadow: 0 0 12px rgba(232, 196, 47, .55);
+	opacity: 0;
+	pointer-events: none;
+	transition:
+		left 520ms cubic-bezier(.65, .05, .25, 1),
+		right 520ms cubic-bezier(.65, .05, .25, 1),
+		opacity 300ms ease;
+}
+
+.setin-nav-indicator.is-shown { opacity: 1; }
+
+/* Hacia la derecha: primero avanza el borde derecho y el izquierdo le sigue (y al revés). */
+.setin-nav-indicator.is-going-right { transition-delay: 110ms, 0ms, 0ms; }
+.setin-nav-indicator.is-going-left { transition-delay: 0ms, 110ms, 0ms; }
+
+.setin-nav-indicator.is-instant { transition: none !important; }
+
+/* Vista previa al pasar el ratón: más fina y translúcida, por debajo de la barra principal. */
+.setin-nav-indicator--ghost {
+	height: 2px;
+	background: rgba(232, 196, 47, .5);
+	box-shadow: none;
+	transition-duration: 380ms, 380ms, 200ms;
+}
+
+.setin-nav-indicator--ghost.is-shown { opacity: .9; }
+
+/* En el menú móvil a pantalla completa no hay barra. */
+.setin-header .is-menu-open .setin-nav-indicator { display: none; }
+
+/* Menú móvil a pantalla completa */
+.setin-header .wp-block-navigation__responsive-container.is-menu-open {
+	padding: 1.5rem clamp(1.25rem, 4vw, 2.5rem);
+	background: var(--wp--preset--color--contrast) !important;
+	color: var(--wp--preset--color--base) !important;
+}
+
+.setin-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container,
+.setin-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content {
+	align-items: flex-start !important;
+	gap: 1.25rem;
+	font-size: 2rem;
+}
+
+.setin-header .wp-block-navigation__responsive-container-open svg,
+.setin-header .wp-block-navigation__responsive-container-close svg { width: 32px; height: 32px; }
+
+
+/* 4. Hero ---------------------------------------------------------------- */
+
+.setin-hero { min-height: min(80vh, 720px) !important; }
+
+/*
+ * El contenedor interno del cover ocupa todo el ancho y usa el mismo margen lateral que la
+ * web, así el texto queda alineado con el logo de la cabecera (el grupo "ancho" se centra solo).
+ */
+.setin-hero,
+.setin-page-hero {
+	padding-right: var(--wp--style--root--padding-right) !important;
+	padding-left: var(--wp--style--root--padding-left) !important;
+}
+
+/* !important: el CSS del bloque cover (cargado después) fija width:auto con la misma especificidad. */
+.wp-block-cover.setin-hero .wp-block-cover__inner-container,
+.wp-block-cover.setin-page-hero .wp-block-cover__inner-container {
+	width: 100% !important;
+	max-width: none;
+	margin: 0 !important;
+	padding-right: 0 !important;
+	padding-left: 0 !important;
+}
+
+.setin-hero .wp-block-cover__inner-container > *,
+.setin-page-hero .wp-block-cover__inner-container > * {
+	width: 100%;
+	max-width: var(--wp--style--global--wide-size) !important;
+	margin-inline: auto !important;
+}
+
+.setin-hero h1 { max-width: 13ch; }
+
+.setin-hero__lead { max-width: 42ch; font-size: var(--wp--preset--font-size--large); }
+
+/* Clientes: frase bajo el título de sectores. */
+.setin-sectors__intro { max-width: 60ch; }
+
+/* Mapa de cobertura a la derecha del texto: tarjeta oscura opaca para que se lea sobre la foto. */
+.setin-hero__map {
+	margin: 0;
+	padding: clamp(.75rem, 2vw, 1.5rem);
+	border-radius: var(--wp--custom--radius--card);
+	background: var(--wp--preset--color--contrast);
+}
+
+/*
+ * Portada en ordenador: menú + banda amarilla + cabecera con mapa caben en una pantalla sin
+ * hacer scroll. La cabecera ocupa el hueco restante (--setin-cta-h lo mide front.js) y el
+ * título, el texto y el mapa se escalan con la altura de la ventana.
+ */
+@media (min-width: 782px) {
+	body.home {
+		--setin-above: calc(var(--wp--custom--header-height) + var(--setin-cta-h, 113px) + var(--wp-admin--admin-bar--height, 0px));
+		--setin-hero-pad: clamp(.75rem, 3vh, 3rem);
+	}
+
+	body.home .setin-hero {
+		min-height: calc(100svh - var(--setin-above)) !important;
+		padding-top: var(--setin-hero-pad) !important;
+		padding-bottom: calc(var(--setin-hero-pad) + var(--setin-home-foot)) !important;
+	}
+
+	body.home .setin-hero h1 { font-size: clamp(2.25rem, min(5.5vw, 9vh), 5.5rem); }
+
+	body.home .setin-hero__lead { max-width: 52ch; font-size: clamp(1rem, 2.4vh, 1.375rem); line-height: 1.55; }
+
+	/* Ancho máximo para que el mapa (1000 x 350) más su barra quepan en el alto disponible. */
+	body.home .setin-worldmap {
+		width: min(100%, calc((100svh - var(--setin-above) - 2 * var(--setin-hero-pad) - var(--setin-home-foot) - 6.5rem) * 1000 / 350));
+		margin-left: auto;
+	}
+}
+
+/* Mapa del mundo interactivo (patrón setin/mapa-mundi + front.js). */
+.setin-worldmap { box-sizing: border-box; display: grid; gap: .75rem; color: var(--wp--preset--color--base); }
+
+.setin-worldmap__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1rem; }
+
+.setin-worldmap__title {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.setin-worldmap__views { display: flex; gap: .25rem; padding: .2rem; border-radius: 999px; background: #2a2a2a; }
+
+.setin-worldmap__views button {
+	min-height: 32px;
+	padding: .3rem .9rem;
+	border: 0;
+	border-radius: 999px;
+	background: transparent;
+	color: #d6d6d2;
+	font: 700 .875rem/1 var(--wp--preset--font-family--heading);
+	letter-spacing: .06em;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+.setin-worldmap__views button[aria-pressed="true"] { background: var(--wp--preset--color--accent); color: var(--wp--preset--color--contrast); }
+
+/* --z, --cx y --cy de la vista actual los pone front.js (el recuadro de Canarias trae los suyos). */
+.setin-worldmap__viewport { --z: 1; --cx: 50%; --cy: 50%; position: relative; overflow: hidden; aspect-ratio: 1000 / 350; border-radius: 12px; }
+
+/* El escenario se amplía hacia el centro de la vista; los pines se contraescalan para no crecer. */
+.setin-worldmap__stage {
+	position: absolute;
+	inset: 0;
+	transform-origin: 0 0;
+	transform: translate(calc(50% - var(--z) * var(--cx)), calc(50% - var(--z) * var(--cy))) scale(var(--z));
+	transition: transform 800ms cubic-bezier(.65, .05, .25, 1);
+}
+
+/* Recuadro de Canarias en la vista España, como en los mapas de España. */
+.setin-worldmap__inset {
+	position: absolute;
+	bottom: 8px;
+	left: 8px;
+	width: 30%;
+	aspect-ratio: 1000 / 350;
+	overflow: hidden;
+	border: 1px solid #4a4a4a;
+	border-radius: 6px;
+	background: var(--wp--preset--color--contrast);
+	transition: opacity 400ms ease 300ms, visibility 400ms 300ms;
+}
+
+/*
+ * En el recuadro el mapa se agranda con width/height y no con scale(): con scale el navegador lo
+ * pinta al tamaño del recuadro (unos 180 px) y las islas, de menos de un píxel, desaparecen.
+ */
+.setin-worldmap__inset .setin-worldmap__stage {
+	inset: auto;
+	top: calc(50% - var(--z) * var(--cy));
+	left: calc(50% - var(--z) * var(--cx));
+	width: calc(var(--z) * 100%);
+	height: calc(var(--z) * 100%);
+	transform: none;
+	transition: none;
+}
+
+.setin-worldmap__inset .setin-worldmap__pin { transform: translate(-50%, -50%); }
+
+.setin-worldmap__stage img { display: block; width: 100%; height: 100%; border-radius: 0 !important; }
+
+.setin-worldmap__pin,
+.setin-worldmap__cluster {
+	position: absolute;
+	transform: translate(-50%, -50%) scale(calc(1 / var(--z)));
+	/* Mismo tiempo que el zoom del escenario, para que los pines no cambien de tamaño a saltos. */
+	transition: opacity 300ms ease, visibility 300ms, transform 800ms cubic-bezier(.65, .05, .25, 1);
+	cursor: pointer;
+}
+
+.setin-worldmap__pin {
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	border: 3px solid var(--wp--preset--color--contrast);
+	border-radius: 50%;
+	background: var(--wp--preset--color--accent);
+	box-shadow: 0 0 0 4px rgba(232, 196, 47, .3);
+}
+
+.setin-worldmap__pin:hover,
+.setin-worldmap__pin:focus-visible,
+.setin-worldmap__pin.is-open { z-index: 2; box-shadow: 0 0 0 6px rgba(232, 196, 47, .45); }
+
+.setin-worldmap__label {
+	position: absolute;
+	bottom: calc(100% + 8px);
+	left: 50%;
+	padding: .35rem .65rem;
+	border-radius: 8px;
+	background: var(--wp--preset--color--base);
+	color: var(--wp--preset--color--contrast);
+	font: 600 .8125rem/1.2 var(--wp--preset--font-family--body);
+	white-space: nowrap;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+	opacity: 0;
+	visibility: hidden;
+	transform: translate(-50%, 4px);
+	transition: opacity 200ms ease, transform 200ms ease, visibility 200ms;
+	pointer-events: none;
+}
+
+.setin-worldmap__pin:hover .setin-worldmap__label,
+.setin-worldmap__pin:focus-visible .setin-worldmap__label,
+.setin-worldmap__pin.is-open .setin-worldmap__label { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+
+.setin-worldmap__cluster {
+	padding: .45rem .85rem;
+	border: 2px solid var(--wp--preset--color--accent);
+	border-radius: 999px;
+	background: var(--wp--preset--color--contrast);
+	color: var(--wp--preset--color--base);
+	font: 700 .8125rem/1 var(--wp--preset--font-family--heading);
+	letter-spacing: .05em;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.setin-worldmap__cluster:hover,
+.setin-worldmap__cluster:focus-visible { background: var(--wp--preset--color--accent); color: var(--wp--preset--color--contrast); }
+
+/* Capitales de provincia (vista España): puntos pequeños, que hay muchos y muy juntos. */
+.setin-worldmap__pin.is-dot { width: 9px; height: 9px; border-width: 2px; box-shadow: none; }
+
+.setin-worldmap__pin.is-dot:hover,
+.setin-worldmap__pin.is-dot:focus-visible,
+.setin-worldmap__pin.is-dot.is-open { box-shadow: 0 0 0 4px rgba(232, 196, 47, .5); }
+
+/* El pin de España lleva a su vista: más grande y con anillo. */
+.setin-worldmap__pin.is-zoom { width: 20px; height: 20px; box-shadow: 0 0 0 5px rgba(232, 196, 47, .35), 0 0 0 9px rgba(232, 196, 47, .15); }
+
+/* Lo que no corresponde a la vista actual (front.js añade .is-hidden). */
+.setin-worldmap .is-hidden { opacity: 0; visibility: hidden; pointer-events: none; transition-delay: 0s; }
+
+@media (max-width: 599px) {
+	.setin-worldmap__cluster { font-size: .6875rem; padding: .35rem .6rem; }
+	.setin-worldmap__pin { width: 14px; height: 14px; }
+	.setin-worldmap__pin.is-dot { width: 7px; height: 7px; }
+	.setin-worldmap__views button { padding: .3rem .6rem; font-size: .75rem; }
+}
+
+/* Cabecera de páginas interiores */
+.setin-page-hero { min-height: 320px !important; }
+.setin-page-hero h1 { max-width: 18ch; }
+
+/* 5. Secciones de portada ------------------------------------------------- */
+
+/* Cifras */
+.setin-stats {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1px;
+	overflow: hidden;
+	border-radius: var(--wp--custom--radius--card);
+	background: rgba(255, 255, 255, .12);
+}
+
+@media (min-width: 900px) {
+	.setin-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.setin-stats > .wp-block-group {
+	margin: 0 !important;
+	padding: clamp(1.5rem, 3vw, 2.25rem);
+	background: var(--wp--preset--color--contrast);
+}
+
+.setin-stat__value {
+	margin: 0;
+	color: var(--wp--preset--color--accent);
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: clamp(2.75rem, 5vw, 4rem);
+	font-weight: 700;
+	line-height: 1;
+}
+
+.setin-stat__label { margin: .5rem 0 0; color: #d6d6d2; font-size: .975rem; }
+
+/* Pilares (Montajes, Instalaciones, Mantenimiento, Desmontajes) */
+.setin-pillars { gap: 1.5rem !important; }
+
+.setin-pillar {
+	height: 100%;
+	padding: clamp(1.5rem, 3vw, 2rem);
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: var(--wp--custom--radius--card);
+	background: var(--wp--preset--color--base);
+	transition: border-color var(--wp--custom--transition), transform var(--wp--custom--transition);
+}
+
+.setin-pillar:hover { border-color: var(--wp--preset--color--contrast); transform: translateY(-4px); }
+
+.setin-pillar .wp-block-image img { width: 64px; height: 64px; border-radius: 0; }
+
+.setin-pillar h3 { margin-top: 1rem; text-transform: uppercase; }
+
+/*
+ * Las secciones a todo el ancho van pegadas entre sí (cada una trae su propio relleno):
+ * se anula el espaciado por defecto entre bloques, que dejaba franjas blancas.
+ */
+.wp-site-blocks > * + * { margin-block-start: 0; }
+
+main > .alignfull,
+main > .wp-block-post-content > .alignfull,
+main .wp-block-post-content > .alignfull + * {
+	margin-block: 0 !important;
+}
+
+/* Sin clientes publicados, la sección de logos no deja hueco (el bloque no pinta nada). */
+.setin-clients-section:not(:has(.setin-clients)) { display: none; }
+
+/* Cobertura */
+.setin-map img { border-radius: 0 !important; }
+
+.setin-places {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+	margin: 1.25rem 0 0 !important;
+	padding: 0;
+	list-style: none;
+}
+
+.setin-places li {
+	padding: .4rem .9rem;
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 999px;
+	font-size: .9375rem;
+	font-weight: 500;
+}
+
+/* Proceso de trabajo */
+.setin-steps { counter-reset: setin-step; }
+
+.setin-step {
+	position: relative;
+	padding-top: 3.25rem !important;
+	border-top: 2px solid rgba(255, 255, 255, .18);
+}
+
+.setin-step::before {
+	counter-increment: setin-step;
+	content: "0" counter(setin-step);
+	position: absolute;
+	top: 1rem;
+	left: 0;
+	color: var(--wp--preset--color--accent);
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1.25rem;
+	font-weight: 700;
+	letter-spacing: .08em;
+}
+
+.setin-step h3 { margin: 0 0 .5rem; font-size: 1.5rem; text-transform: uppercase; }
+
+/* Claim con comillas grandes */
+.setin-claim { position: relative; }
+
+.setin-claim::before {
+	content: "\201C";
+	position: absolute;
+	top: -.35em;
+	left: 50%;
+	z-index: 0;
+	color: var(--wp--preset--color--line);
+	font-family: Georgia, serif;
+	font-size: clamp(10rem, 22vw, 18rem);
+	line-height: 1;
+	transform: translateX(-50%);
+	pointer-events: none;
+}
+
+.setin-claim > * { position: relative; z-index: 1; }
+
+/* Imágenes redondeadas en columnas */
+.setin-rounded img { border-radius: var(--wp--custom--radius--card) !important; }
+
+/* 6. Formulario de presupuesto -------------------------------------------- */
+
+.setin-form-card {
+	padding: clamp(1.5rem, 4vw, 3rem);
+	border-radius: var(--wp--custom--radius--card);
+	background: var(--wp--preset--color--base);
+	box-shadow: 0 20px 60px rgba(0, 0, 0, .08);
+}
+
+.wpcf7-form .setin-form {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1.1rem 1.25rem;
+}
+
+@media (min-width: 700px) {
+	.wpcf7-form .setin-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.wpcf7-form .setin-form .is-full { grid-column: 1 / -1; }
+}
+
+.wpcf7-form .setin-form p { margin: 0; }
+
+.wpcf7-form label {
+	display: grid;
+	gap: .4rem;
+	font-size: .9375rem;
+	font-weight: 600;
+}
+
+.wpcf7-form input,
+.wpcf7-form select,
+.wpcf7-form textarea {
+	box-sizing: border-box;
+	max-width: 100%;
+}
+
+.wpcf7-form .wpcf7-form-control-wrap { display: block; }
+
+.wpcf7-form input:not([type="checkbox"]):not([type="submit"]):not([type="file"]),
+.wpcf7-form select,
+.wpcf7-form textarea {
+	width: 100%;
+	min-height: 52px;
+	padding: .8rem 1rem;
+	border: 1.5px solid var(--wp--preset--color--line);
+	border-radius: 12px;
+	background: var(--wp--preset--color--base);
+	color: var(--wp--preset--color--contrast);
+	font: inherit;
+	font-weight: 400;
+	transition: border-color var(--wp--custom--transition);
+}
+
+.wpcf7-form textarea { min-height: 150px; resize: vertical; }
+
+.wpcf7-form input:focus,
+.wpcf7-form select:focus,
+.wpcf7-form textarea:focus {
+	border-color: var(--wp--preset--color--contrast);
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(232, 196, 47, .55);
+}
+
+.wpcf7-form input[type="file"] {
+	width: 100%;
+	padding: 1rem;
+	border: 1.5px dashed var(--wp--preset--color--graphite);
+	border-radius: 12px;
+	background: var(--wp--preset--color--surface);
+	font: inherit;
+	font-weight: 400;
+}
+
+.setin-form__hint { color: var(--wp--preset--color--graphite); font-size: .875rem; font-weight: 400; }
+
+.wpcf7-form .wpcf7-acceptance .wpcf7-list-item { margin: 0; }
+
+.wpcf7-form .wpcf7-acceptance label {
+	display: flex;
+	align-items: flex-start;
+	gap: .6rem;
+	font-weight: 400;
+}
+
+.wpcf7-form .wpcf7-acceptance input { width: 1.25rem; height: 1.25rem; margin-top: .15rem; accent-color: var(--wp--preset--color--contrast); }
+
+.setin-form__legal {
+	color: var(--wp--preset--color--graphite);
+	font-size: .8125rem;
+	line-height: 1.5;
+}
+
+.wpcf7-form .wpcf7-submit {
+	min-height: 56px;
+	padding: 1rem 2.25rem;
+	border: 0;
+	border-radius: 999px;
+	background: var(--wp--preset--color--contrast);
+	color: var(--wp--preset--color--base);
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1.1875rem;
+	font-weight: 700;
+	letter-spacing: .05em;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: background var(--wp--custom--transition), color var(--wp--custom--transition);
+}
+
+.wpcf7-form .wpcf7-submit:hover,
+.wpcf7-form .wpcf7-submit:focus-visible {
+	background: var(--wp--preset--color--accent);
+	color: var(--wp--preset--color--contrast);
+}
+
+.wpcf7-not-valid-tip { margin-top: .3rem; color: #b42318; font-size: .875rem; font-weight: 500; }
+
+.wpcf7 form .wpcf7-response-output {
+	margin: 1.25rem 0 0;
+	padding: 1rem 1.25rem;
+	border-width: 2px;
+	border-radius: 12px;
+}
+
+/* 7. Pie ------------------------------------------------------------------- */
+
+/* El pie es solo la línea legal (© y enlaces legales), igual en todas las páginas. */
+.setin-footer.has-background { padding-top: var(--wp--preset--spacing--30) !important; padding-bottom: var(--wp--preset--spacing--30) !important; }
+
+.setin-footer > .wp-block-group {
+	align-items: center;
+	padding-right: 4.5rem; /* Hueco para el botón flotante de WhatsApp. */
+}
+
+/*
+ * En móvil (menos la portada, que va aparte) el pie tenía distinto alto según cuántas líneas
+ * ocupaban los enlaces legales: © en una línea y los tres enlaces en otra, siempre igual.
+ */
+@media (max-width: 781px) {
+	body:not(.home) .setin-footer > .wp-block-group { row-gap: .35rem; padding-right: 0; }
+	body:not(.home) .setin-footer .wp-block-navigation { width: 100%; }
+	body:not(.home) .setin-footer .wp-block-navigation__container { flex-wrap: nowrap; gap: .75rem; }
+	body:not(.home) .setin-footer .wp-block-navigation,
+	body:not(.home) .setin-footer .setin-copyright { font-size: .75rem !important; }
+}
+
+/* Móviles estrechos: los enlaces legales siguen sin llegar a los botones flotantes. */
+@media (max-width: 380px) {
+	body:not(.home) .setin-footer .wp-block-navigation__container { gap: .55rem; }
+	body:not(.home) .setin-footer .wp-block-navigation { font-size: .6875rem !important; }
+}
+
+/*
+ * wpautop deja párrafos vacíos (o con solo un tabulador) alrededor del shortcode del ©: en la
+ * fila flex contaban como elementos y lo empujaban al centro. En esa fila el único párrafo real es el ©.
+ */
+.setin-footer > .wp-block-group > p:not(.setin-copyright) { display: none; }
+
+.setin-footer a { text-decoration: none; }
+.setin-footer a:hover, .setin-footer a:focus-visible { text-decoration: underline; }
+
+/*
+ * En la portada la línea legal va encima de la parte baja de la foto de cabecera, sin franja negra debajo:
+ * el pie sube su propia altura (--setin-home-foot) y la cabecera le reserva ese hueco.
+ */
+body.home { --setin-home-foot: 3rem; }
+
+@media (max-width: 781px) {
+	body.home { --setin-home-foot: 6.5rem; }
+}
+
+body.home .wp-site-blocks > footer.wp-block-template-part {
+	position: relative;
+	z-index: 2;
+	margin-top: calc(-1 * var(--setin-home-foot));
+}
+
+body.home .setin-footer.has-background {
+	box-sizing: border-box;
+	height: var(--setin-home-foot);
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+	background: linear-gradient(180deg, rgba(22, 22, 22, 0), rgba(22, 22, 22, .8)) !important;
+}
+
+body.home .setin-footer > .wp-block-group {
+	box-sizing: border-box;
+	height: 100%;
+	align-items: center;
+	align-content: center;
+}
+
+body.home .setin-hero { padding-bottom: calc(var(--wp--preset--spacing--60) + var(--setin-home-foot)) !important; }
+
+.setin-plain-list { padding-left: 0; line-height: 1.9; list-style: none; }
+
+.setin-footer__title {
+	margin-bottom: 1rem;
+	color: #a3a3a0 !important;
+	font-family: var(--wp--preset--font-family--body) !important;
+	font-size: .8125rem !important;
+	font-weight: 600 !important;
+	letter-spacing: .1em;
+	text-transform: uppercase !important;
+}
+
+.setin-footer .wp-block-navigation { font-family: var(--wp--preset--font-family--body); font-size: 1rem; font-weight: 400; letter-spacing: 0; text-transform: none; }
+
+/* 8. Botones flotantes ---------------------------------------------------- */
+
+.setin-float {
+	position: fixed;
+	right: 1rem;
+	bottom: 1rem;
+	z-index: 60;
+	display: grid;
+	gap: .75rem;
+}
+
+.setin-float__btn {
+	display: grid;
+	place-items: center;
+	width: 3.5rem;
+	height: 3.5rem;
+	border-radius: 50%;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+	color: #fff;
+	transition: transform var(--wp--custom--transition);
+}
+
+.setin-float__btn:hover, .setin-float__btn:focus-visible { transform: scale(1.08); }
+
+.setin-float__btn--wa { background: #1a8f4c; }
+.setin-float__btn--tel { background: var(--wp--preset--color--contrast); }
+
+/* El botón de llamada solo tiene sentido en móvil. */
+@media (min-width: 900px) {
+	.setin-float__btn--tel { display: none; }
+}
+
+.setin-float__btn svg { width: 28px; height: 28px; }
+
+/* 10. Móvil en horizontal y tablets estrechas ---------------------------------------- */
+
+/*
+ * Fondo de la raíz oscuro: es lo que Safari pinta en la zona de la cámara del iPhone en
+ * horizontal y al estirar la página. El cuerpo sigue blanco (theme.json).
+ */
+html { background-color: var(--wp--preset--color--contrast); }
+
+/*
+ * el sistema solo muestra el botón ☰ por debajo de 600 px; entre 600 y 899 px el menú completo
+ * no cabe junto al logo y se partía en dos líneas. Aquí también se usa el menú desplegable.
+ */
+@media (min-width: 600px) and (max-width: 899px) {
+	.setin-header .wp-block-navigation__responsive-container-open:not(.always-shown) { display: flex; }
+
+	.setin-header .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) { display: none; }
+
+	.setin-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-close { display: flex; }
+}
+
+/* Banda amarilla: entre 600 y 781 px, texto y botón en la misma fila en vez de apilados. */
+@media (min-width: 600px) and (max-width: 781px) {
+	.setin-cta .wp-block-columns { flex-wrap: nowrap !important; }
+	/* Más específico que la regla de el sistema que pone cada columna al 100 % en móvil. */
+	.setin-cta .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column { flex: 1 1 0% !important; min-width: 0; }
+	.setin-cta .wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column:last-child { flex: 0 0 auto !important; width: auto !important; }
+}
+
+/* Pantallas bajas (móvil girado): banda solo con título y botón, y botones flotantes más pequeños. */
+@media (max-height: 500px) and (orientation: landscape) {
+	.setin-cta p { display: none; }
+
+	/* Menú abierto: más compacto para que las 6 secciones quepan sin desplazarse. */
+	.setin-header .wp-block-navigation__responsive-container.is-menu-open { padding-top: 1rem; padding-bottom: 1rem; }
+
+	.setin-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content { padding-top: 0 !important; }
+
+	.setin-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container,
+	.setin-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content {
+		gap: .35rem;
+		font-size: 1.375rem;
+	}
+
+	.setin-cta { padding-top: .75rem !important; padding-bottom: .75rem !important; }
+
+	.setin-float { right: max(.75rem, env(safe-area-inset-right)); bottom: .75rem; display: flex; gap: .5rem; }
+
+	.setin-float__btn { width: 2.75rem; height: 2.75rem; }
+
+	.setin-float__btn svg { width: 22px; height: 22px; }
+}
+
+/* 9. Páginas más cortas -----------------------------------------------------
+ *
+ * Rejillas más densas y carruseles en móvil para no tener que bajar tanto. Va aquí y no en el
+ * style.css de cada bloque porque theme.css lleva versión por fecha y la caché se renueva sola;
+ * el prefijo "body" gana al CSS del bloque, que se carga después.
+ */
+
+/* Servicios: 2 columnas en móvil, 3 en tablet y 4 en escritorio (3 si solo hay 3 tarjetas). */
+body .setin-cards__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+
+@media (min-width: 700px) {
+	body .setin-cards__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+}
+
+@media (min-width: 1100px) {
+	body .setin-cards__grid:has(> :nth-child(4)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+body .setin-card__link { aspect-ratio: 4 / 4.3; }
+
+@media (min-width: 1100px) {
+	body .setin-card__title { font-size: clamp(1.375rem, 1.7vw, 1.625rem); }
+}
+
+@media (max-width: 699px) {
+	body .setin-card__link { aspect-ratio: 4 / 4.8; border-radius: 18px; }
+	body .setin-card__body { padding: .9rem; }
+	body .setin-card__title { font-size: 1.1875rem; }
+	/* En móvil la tarjeta ya es el enlace: sin descripción ni flecha cabe el título entero. */
+	body .setin-card__desc,
+	body .setin-card__arrow { display: none; }
+}
+
+/* Proyectos: 2 columnas en móvil y 4 en escritorio. */
+body .setin-projects__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem .75rem; }
+
+@media (min-width: 700px) {
+	body .setin-projects__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.75rem 1.25rem; }
+}
+
+@media (min-width: 1100px) {
+	body .setin-projects__grid:has(> :nth-child(4)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+	body .setin-projects__grid .setin-project__title { font-size: 1.3125rem; }
+}
+
+@media (max-width: 699px) {
+	body .setin-project__link { gap: .6rem; }
+	body .setin-project__media { border-radius: 16px; }
+	body .setin-project__title { font-size: 1.125rem; }
+	body .setin-project__cat { font-size: .6875rem; }
+	body .setin-project__place { font-size: .8125rem; }
+	/* Si queda una suelta al final, ocupa la fila entera. */
+	body .setin-projects__grid > .setin-project:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+
+/* Opiniones: en móvil y tablet, carrusel horizontal en vez de una debajo de otra. */
+@media (max-width: 899px) {
+	body .setin-quotes {
+		grid-template-columns: none;
+		grid-auto-flow: column;
+		grid-auto-columns: min(85%, 26rem);
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scroll-snap-type: x mandatory;
+		padding-bottom: .75rem;
+		scrollbar-width: thin;
+	}
+
+	body .setin-quote { scroll-snap-align: start; }
+}
+
+/* "Estamos a tu servicio" y fotos similares: menos alto. */
+.setin-rounded img { aspect-ratio: 1 / 1 !important; }
+
+@media (max-width: 781px) {
+	.setin-rounded img { aspect-ratio: 16 / 10 !important; }
+}
+
+/* Pilares de Empresa (los 4 con icono): 2 x 2 en móvil. Los de 3 textos largos siguen apilados. */
+@media (max-width: 781px) {
+	.setin-pillars.wp-block-columns:has(> :nth-child(4)) { flex-wrap: wrap !important; gap: .75rem !important; }
+	/* Más específico que la regla de el sistema que apila las columnas al 100 % en móvil. */
+	.wp-block-columns.setin-pillars:not(.is-not-stacked-on-mobile):has(> :nth-child(4)) > .wp-block-column { flex-basis: calc(50% - .375rem) !important; flex-grow: 0; }
+	.setin-pillar { padding: 1rem; }
+	.setin-pillar .wp-block-image img { width: 44px; height: 44px; }
+	.setin-pillar h3 { margin-top: .6rem; font-size: 1.25rem; }
+	.setin-pillar p { font-size: .9375rem; line-height: 1.5; }
+}
+
+/* Filtros de proyectos en móvil: una sola fila que se desliza. */
+@media (max-width: 699px) {
+	body .setin-projects__filters {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		margin-inline: calc(-1 * var(--wp--style--root--padding-left));
+		padding: 0 var(--wp--style--root--padding-left) .5rem;
+		scrollbar-width: none;
+	}
+
+	body .setin-chip { flex: none; }
+}
+
+/* 11. Páginas interiores compactas -------------------------------------------
+ *
+ * Menos relleno entre secciones, cabeceras bajas con el título en una línea y fotos apaisadas.
+ * En "body" para ganar a los valores de theme.json, que van en :root.
+ */
+
+body {
+	--wp--preset--spacing--60: clamp(1.75rem, 3.5vw, 2.75rem);
+	--wp--preset--spacing--50: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+/* !important: el cover lleva min-height y relleno en línea (la ficha de servicio, 560px). */
+.wp-block-cover.setin-page-hero {
+	min-height: 0 !important;
+	padding-top: clamp(1.75rem, 4vw, 3rem) !important;
+	padding-bottom: clamp(1.5rem, 3vw, 2.25rem) !important;
+}
+
+.setin-page-hero .wp-block-cover__inner-container > .wp-block-group { gap: .75rem; }
+.setin-page-hero .wp-block-cover__inner-container > .wp-block-group > * { margin-block: 0; }
+.setin-page-hero h1 { max-width: none; font-size: clamp(2.25rem, 4.5vw, 3.75rem) !important; }
+.setin-page-hero .setin-hero__lead { max-width: 62ch; font-size: 1.0625rem; }
+
+/* Tarjetas de servicios (listado y "Más especialidades"): apaisadas en tablet y escritorio. */
+@media (min-width: 700px) {
+	body .setin-card__link { aspect-ratio: 4 / 3.2; }
+}
+
+@media (min-width: 1100px) {
+	body .setin-card__link { aspect-ratio: 4 / 3; }
+	/* Con solo 3 tarjetas ("Más especialidades") son más anchas: más apaisadas. */
+	body .setin-cards__grid:not(:has(> :nth-child(4))) .setin-card__link { aspect-ratio: 16 / 9; }
+	/* Con 9 servicios: 3 filas de 3 (con 4 columnas quedaría una sola en la última fila). */
+	body .setin-cards__grid:has(> :nth-child(9):last-child) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	body .setin-cards__grid:has(> :nth-child(9):last-child) .setin-card__link { aspect-ratio: 16 / 9; }
+}
+
+/* En móvil (2 columnas), si sobra una tarjeta al final ocupa la fila entera, apaisada. */
+@media (max-width: 699px) {
+	body .setin-cards__grid:has(> :nth-child(4)) > .setin-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+	body .setin-cards__grid:has(> :nth-child(4)) > .setin-card:last-child:nth-child(odd) .setin-card__link { aspect-ratio: 16 / 9; }
+}
+
+/* Proyectos y galerías: fotos más bajas. */
+body .setin-project__media { aspect-ratio: 16 / 10; }
+body .setin-gallery__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+body .setin-gallery__item { aspect-ratio: 16 / 9; }
+
+/* Títulos de sección más contenidos (la portada no tiene h2). */
+main h2.wp-block-heading { font-size: clamp(1.75rem, 3.2vw, 2.625rem); }
+main .setin-pillar h3 { font-size: clamp(1.25rem, 1.7vw, 1.5rem); }
+
+/* Fotos junto a texto (Empresa): apaisadas también en escritorio. */
+.setin-rounded img { aspect-ratio: 4 / 3 !important; }
+
+/* Tarjetas de Empresa y Clientes: menos relleno. */
+.setin-pillar { padding: clamp(1rem, 2vw, 1.5rem); }
+.setin-pillar .wp-block-image img { width: 48px; height: 48px; }
+.setin-pillar h3 { margin-top: .6rem; }
+
+/* Formulario de presupuesto: más compacto. */
+.setin-form-card { padding: clamp(1.25rem, 3vw, 2rem); }
+.wpcf7-form .setin-form { gap: .8rem 1rem; }
+.wpcf7-form input:not([type="checkbox"]):not([type="submit"]):not([type="file"]),
+.wpcf7-form select { min-height: 46px; padding: .6rem .9rem; }
+.wpcf7-form textarea { min-height: 110px; }
+.wpcf7-form input[type="file"] { padding: .6rem; }
+
+@media (max-width: 781px) {
+	/* La foto de Empresa junto al texto es decorativa: en móvil ocupaba una pantalla. */
+	.wp-block-column:has(> .setin-rounded:only-child) { display: none; }
+
+	/*
+	 * Tarjetas de texto que se apilaban (Lo que nos diferencia, Sectores, Más especialidades):
+	 * una fila que se desliza, como las opiniones.
+	 */
+	.wp-block-columns.setin-pillars:not(:has(> :nth-child(4))),
+	body .setin-sectors,
+	body .setin-cards__grid:not(:has(> :nth-child(4))) {
+		display: grid !important;
+		grid-template-columns: none !important;
+		grid-auto-flow: column;
+		grid-auto-columns: min(80%, 22rem);
+		gap: .75rem !important;
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scroll-snap-type: x mandatory;
+		margin-inline: calc(-1 * var(--wp--style--root--padding-left));
+		padding: 0 var(--wp--style--root--padding-left) .75rem;
+		scroll-padding-inline: var(--wp--style--root--padding-left);
+		scrollbar-width: thin;
+	}
+
+	.wp-block-columns.setin-pillars:not(:has(> :nth-child(4))) > *,
+	body .setin-sectors > *,
+	body .setin-cards__grid:not(:has(> :nth-child(4))) > * { scroll-snap-align: start; }
+
+	.wp-block-columns.setin-pillars:not(:has(> :nth-child(4))) > .wp-block-column { flex-basis: auto !important; }
+	body .setin-cards__grid:not(:has(> :nth-child(4))) .setin-card__link { aspect-ratio: 4 / 3; }
+
+	/* Formulario: los seis campos cortos de dos en dos; fecha, fotos y mensaje a lo ancho. */
+	.wpcf7-form .setin-form { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem .6rem; }
+	.wpcf7-form .setin-form > :nth-child(n+7) { grid-column: 1 / -1; }
+	.wpcf7-form .setin-form label { font-size: .8125rem; }
+	.setin-form__legal { font-size: .75rem; line-height: 1.4; }
+
+	.setin-page-hero h1 { font-size: clamp(2rem, 9vw, 2.5rem) !important; }
+	.setin-page-hero .setin-hero__lead { font-size: 1rem; }
+}
+
+/* 12. Cada sección del menú en una pantalla (ordenador) -----------------------
+ *
+ * Empresa, Servicios, Proyectos, Clientes y Contacto se ven enteras sin bajar, como la portada:
+ * la foto de cabecera pasa a ser el fondo de toda la pantalla, el título va arriba y el contenido
+ * encima, con el pie superpuesto abajo. Lo que no cabe a la vez va en carrusel (servicios,
+ * proyectos) o en pestañas (Empresa), ver front.js 1d y 1e. Las páginas las marca la clase
+ * .setin-fit (inc/setup.php). Por debajo de 900px de ancho o 560px de alto, la web sigue como
+ * en móvil: todo seguido hacia abajo.
+ */
+
+/* Botones que crea front.js: solo existen visualmente en este modo. */
+.setin-tabs,
+.setin-carousel__btn { display: none; }
+
+@media (min-width: 900px) and (min-height: 560px) {
+	body.setin-fit {
+		--setin-foot-h: 3rem;
+		--setin-gap-v: clamp(.875rem, 3vh, 2.25rem);
+		--setin-top: clamp(1rem, 3vh, 3rem);
+		--setin-title-h: clamp(5.75rem, 16vh, 9rem);
+		--setin-fit-h: calc(100svh - var(--wp--custom--header-height) - var(--wp-admin--admin-bar--height, 0px));
+		/* Alto libre para el contenido bajo el título. */
+		--setin-avail: calc(var(--setin-fit-h) - var(--setin-title-h) - var(--setin-foot-h) - 2 * var(--setin-gap-v));
+		/* Carruseles: 3 tarjetas a la vista (4 en pantallas anchas). */
+		--setin-cols: 3;
+		--setin-gap-h: 1.25rem;
+		--setin-row-w: min(100vw - var(--wp--style--root--padding-left) - var(--wp--style--root--padding-right), var(--wp--style--global--wide-size));
+		--setin-card-w: calc((var(--setin-row-w) - (var(--setin-cols) - 1) * var(--setin-gap-h)) / var(--setin-cols));
+	}
+
+	@media (min-width: 1280px) {
+		body.setin-fit { --setin-cols: 4; }
+	}
+
+	/* Una pantalla oscura con la foto de la sección de fondo. */
+	body.setin-fit main {
+		position: relative;
+		isolation: isolate;
+		display: flex;
+		flex-direction: column;
+		box-sizing: border-box;
+		min-height: var(--setin-fit-h);
+		padding-bottom: var(--setin-foot-h);
+		/* La foto de fondo hace un zoom lento (animations.css): sin esto se saldría por los lados. */
+		overflow: clip;
+		background: var(--wp--preset--color--contrast);
+		color: var(--wp--preset--color--base);
+	}
+
+	body.setin-fit main > .entry-content { display: flex; flex: 1; flex-direction: column; }
+	body.setin-fit main > *,
+	body.setin-fit main > .entry-content > * { margin-block: 0 !important; }
+
+	body.setin-fit main :is(h1, h2, h3, p, dt, dd, li) { color: inherit; }
+
+	/* La cabecera de foto: su imagen y su velo cubren toda la pantalla y queda el título. */
+	body.setin-fit .wp-block-cover.setin-page-hero {
+		position: static;
+		overflow: visible;
+		box-sizing: border-box;
+		height: var(--setin-title-h);
+		min-height: 0 !important;
+		padding-top: var(--setin-gap-v) !important;
+		padding-bottom: 0 !important;
+		align-items: flex-end;
+		background: none;
+	}
+
+	body.setin-fit .setin-page-hero > .wp-block-cover__image-background {
+		position: absolute;
+		inset: 0;
+		z-index: -2 !important; /* Gana a una regla del bloque cover con mucha especificidad. */
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	body.setin-fit .setin-page-hero > .wp-block-cover__background {
+		position: absolute;
+		inset: 0;
+		z-index: -1 !important;
+		opacity: 1;
+		background: linear-gradient(90deg, rgba(22, 22, 22, .94) 0%, rgba(22, 22, 22, .84) 55%, rgba(22, 22, 22, .7) 100%) !important;
+	}
+
+	/* Título a la izquierda y entradilla a la derecha. */
+	body.setin-fit .setin-page-hero .wp-block-cover__inner-container > .wp-block-group {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 40ch);
+		align-items: end;
+		gap: .5rem 3rem;
+	}
+
+	body.setin-fit .setin-page-hero .wp-block-group > * { grid-column: 1; margin: 0; }
+	body.setin-fit .setin-page-hero h1 { font-size: clamp(2.25rem, 4vw, 3.5rem) !important; line-height: .95; }
+	body.setin-fit .setin-page-hero .setin-hero__lead {
+		grid-column: 2;
+		grid-row: 1 / span 2;
+		max-width: none;
+		color: rgba(255, 255, 255, .8);
+		font-size: 1rem;
+		line-height: 1.6;
+	}
+
+	/*
+	 * El título queda siempre a la misma altura bajo el menú (--setin-top) y el contenido justo
+	 * debajo, con la misma separación en todas las páginas.
+	 */
+	body.setin-fit main,
+	body.setin-fit main > .entry-content { justify-content: flex-start; }
+	body.setin-fit main { padding-top: var(--setin-top); }
+	body.setin-fit main > .entry-content { flex: 1; }
+	body.setin-fit main > :not(.entry-content),
+	body.setin-fit main > .entry-content > * { flex: 0 0 auto !important; }
+	body.setin-fit .wp-block-cover.setin-page-hero { height: auto !important; padding-top: 0 !important; }
+
+	body.setin-fit main > :not(.setin-page-hero):not(.entry-content),
+	body.setin-fit main > .entry-content > :not(.setin-page-hero):not(.setin-tabs) {
+		padding-top: clamp(1.25rem, 4.5vh, 3rem) !important;
+		padding-bottom: 0 !important;
+		background: none !important;
+		color: inherit;
+	}
+
+	/* Empresa: las partes, apiladas en la misma celda; solo se ve la de la pestaña elegida. */
+	body.setin-fit.has-setin-tabs .setin-tabs__panels { display: grid; align-items: start; }
+	body.setin-fit.has-setin-tabs .setin-tabs__panel {
+		grid-area: 1 / 1;
+		margin: 0 !important;
+		padding-block: 0 !important;
+		background: none !important;
+		color: inherit;
+		transition: opacity 300ms ease, visibility 300ms;
+	}
+	body.setin-fit.has-setin-tabs .setin-tabs__panel.is-inactive { visibility: hidden; opacity: 0; }
+
+	/* El bloque de logos de clientes, mientras esté vacío, no ocupa sitio. */
+	body.setin-fit main .setin-clients-section:not(:has(img)) { display: none !important; }
+
+	body.setin-fit main h2.wp-block-heading { font-size: clamp(1.75rem, 2.6vw, 2.25rem); }
+
+	/* El pie, como en la portada: encima de la parte baja de la foto. */
+	body.setin-fit .wp-site-blocks > footer.wp-block-template-part {
+		position: relative;
+		z-index: 2;
+		margin-top: calc(-1 * var(--setin-foot-h));
+	}
+
+	body.setin-fit .setin-footer.has-background {
+		box-sizing: border-box;
+		height: var(--setin-foot-h);
+		padding-top: 0 !important;
+		padding-bottom: 0 !important;
+		background: linear-gradient(180deg, rgba(22, 22, 22, 0), rgba(22, 22, 22, .8)) !important;
+	}
+
+	body.setin-fit .setin-footer > .wp-block-group { box-sizing: border-box; height: 100%; align-items: center; align-content: center; }
+
+	/* Tarjetas de texto (Qué hacemos, Lo que nos diferencia, Sectores): cristal sobre la foto. */
+	body.setin-fit .setin-pillar {
+		padding: clamp(1.1rem, 2.6vh, 1.75rem) 1.5rem;
+		border: 1px solid rgba(255, 255, 255, .14);
+		background: rgba(255, 255, 255, .07);
+		-webkit-backdrop-filter: blur(8px);
+		backdrop-filter: blur(8px);
+		color: var(--wp--preset--color--base);
+	}
+
+	body.setin-fit .setin-pillar:hover { border-color: rgba(255, 255, 255, .4); }
+	body.setin-fit .setin-pillar h3 { margin-top: .75rem; font-size: clamp(1.25rem, 1.6vw, 1.5rem); }
+	body.setin-fit .setin-pillar h3:first-child { margin-top: 0; }
+	body.setin-fit .setin-pillar p { color: rgba(255, 255, 255, .78); font-size: .9375rem; line-height: 1.6; }
+	/* Los iconos son de línea negra: en blanco sobre el fondo oscuro. */
+	body.setin-fit .setin-pillar .wp-block-image img { width: 44px !important; height: 44px !important; filter: invert(1); }
+	/* Todas las tarjetas de una fila con el mismo alto. */
+	body.setin-fit .setin-pillars { align-items: stretch !important; gap: 1.25rem !important; }
+	body.setin-fit .setin-pillars > .wp-block-column { display: flex; flex-direction: column; align-self: stretch !important; }
+	body.setin-fit .setin-pillars > .wp-block-column > .setin-pillar { flex: 1; box-sizing: border-box; }
+
+	/* Carruseles (servicios y proyectos): una fila que avanza con las flechas. */
+	body.setin-fit .setin-carousel { position: relative; }
+
+	body.setin-fit .setin-cards__grid,
+	body.setin-fit .setin-projects__grid {
+		display: grid !important;
+		grid-template-columns: none !important;
+		grid-auto-flow: column;
+		grid-auto-columns: var(--setin-card-w);
+		gap: var(--setin-gap-h) !important;
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scroll-snap-type: x mandatory;
+		scroll-behavior: smooth;
+		scrollbar-width: none;
+	}
+
+	body.setin-fit .setin-cards__grid::-webkit-scrollbar,
+	body.setin-fit .setin-projects__grid::-webkit-scrollbar { display: none; }
+
+	body.setin-fit .setin-cards__grid > *,
+	body.setin-fit .setin-projects__grid > * { scroll-snap-align: start; }
+
+	body.setin-fit .setin-carousel__btn {
+		position: absolute;
+		top: 50%;
+		z-index: 3;
+		display: grid;
+		place-items: center;
+		width: 3rem;
+		height: 3rem;
+		margin-top: -1.5rem;
+		padding: 0;
+		border: 0;
+		border-radius: 50%;
+		background: var(--wp--preset--color--base);
+		color: var(--wp--preset--color--contrast);
+		box-shadow: 0 10px 28px rgba(0, 0, 0, .4);
+		cursor: pointer;
+		transition: opacity var(--wp--custom--transition), background var(--wp--custom--transition), transform var(--wp--custom--transition);
+	}
+
+	body.setin-fit .setin-carousel__btn:hover { background: var(--wp--preset--color--accent); transform: scale(1.06); }
+	body.setin-fit .setin-carousel__btn:focus-visible { outline: 3px solid var(--wp--preset--color--accent); outline-offset: 3px; }
+	body.setin-fit .setin-carousel__btn:disabled { opacity: 0; pointer-events: none; }
+	body.setin-fit .setin-carousel__btn--prev { left: -1rem; }
+	body.setin-fit .setin-carousel__btn--next { right: -1rem; }
+	body.setin-fit .setin-carousel.is-static .setin-carousel__btn { display: none; }
+
+	/* Servicios: tarjetas altas con su foto. */
+	body.setin-fit .setin-card__link {
+		aspect-ratio: auto !important;
+		height: min(var(--setin-avail), var(--setin-card-w) * 1.6);
+	}
+
+	/* Proyectos: filtros claros sobre la foto y tarjetas con el texto encima. */
+	body.setin-fit .setin-projects__filters {
+		flex-wrap: nowrap;
+		gap: .5rem;
+		margin-bottom: 1.25rem;
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+
+	body.setin-fit .setin-chip { box-sizing: border-box; flex: none; height: 2.5rem; min-height: 0; padding: 0 1.1rem; border-color: rgba(255, 255, 255, .3); color: var(--wp--preset--color--base); }
+	body.setin-fit .setin-chip:hover,
+	body.setin-fit .setin-chip:focus-visible { border-color: var(--wp--preset--color--base); }
+	body.setin-fit .setin-chip[aria-current="true"] { border-color: var(--wp--preset--color--base); background: var(--wp--preset--color--base); color: var(--wp--preset--color--contrast); }
+
+	body.setin-fit .setin-project__link {
+		position: relative;
+		display: block;
+		overflow: hidden;
+		isolation: isolate;
+		height: min(var(--setin-avail) - 3.75rem, var(--setin-card-w) * 1.5);
+		border-radius: var(--wp--custom--radius--card, 26px);
+		color: var(--wp--preset--color--base);
+	}
+
+	body.setin-fit .setin-project__media { position: absolute; inset: 0; z-index: -1; aspect-ratio: auto !important; border-radius: 0; }
+	body.setin-fit .setin-project__meta {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		gap: .2rem;
+		padding: 3.5rem 1.4rem 1.25rem;
+		background: linear-gradient(180deg, rgba(22, 22, 22, 0), rgba(22, 22, 22, .9));
+	}
+
+	body.setin-fit .setin-project__cat { color: rgba(255, 255, 255, .75); font-size: .75rem; }
+	body.setin-fit .setin-projects__grid .setin-project__title { font-size: clamp(1.25rem, 1.6vw, 1.5rem); }
+	body.setin-fit .setin-project__place { color: rgba(255, 255, 255, .75); font-size: .875rem; }
+
+	/* Clientes. */
+	body.setin-fit .setin-sectors__intro { max-width: 68ch; color: rgba(255, 255, 255, .82); font-size: 1.125rem !important; line-height: 1.6; }
+	body.setin-fit .setin-sectors { margin-top: clamp(1rem, 3vh, 2rem) !important; gap: 1.25rem !important; }
+
+	/* Clientes tiene poco contenido: textos y tarjetas algo más grandes. */
+	body.setin-fit main:has(.setin-sectors) h2.wp-block-heading { font-size: clamp(1.75rem, 3vw, 2.5rem); }
+	body.setin-fit .setin-sectors__intro { font-size: clamp(1.0625rem, 2.2vh, 1.3125rem) !important; }
+	body.setin-fit .setin-sectors .setin-pillar { padding: clamp(1.25rem, 3.5vh, 2.25rem) clamp(1.25rem, 2vw, 2rem); }
+	body.setin-fit .setin-sectors .setin-pillar h3 { font-size: clamp(1.25rem, 1.9vw, 1.75rem); }
+	body.setin-fit .setin-sectors .setin-pillar p { font-size: clamp(.9375rem, 1.9vh, 1.0625rem); }
+
+	/* Empresa: pestañas bajo el título. */
+	body.setin-fit.has-setin-tabs .setin-tabs {
+		display: block;
+		box-sizing: border-box;
+		max-width: none !important;
+		margin: 0 !important;
+		padding: var(--setin-gap-v) 0 0; /* El margen lateral ya lo pone .entry-content. */
+	}
+
+	body.setin-fit .setin-tabs__list { display: flex; gap: .5rem; max-width: var(--wp--style--global--wide-size); margin-inline: auto; }
+
+	body.setin-fit .setin-tabs__tab {
+		display: inline-flex;
+		align-items: center;
+		min-height: 2.5rem;
+		padding: 0 1.25rem;
+		border: 1.5px solid rgba(255, 255, 255, .3);
+		border-radius: 999px;
+		background: transparent;
+		color: var(--wp--preset--color--base);
+		font: 600 .9375rem/1 var(--wp--preset--font-family--heading);
+		letter-spacing: .05em;
+		text-transform: uppercase;
+		cursor: pointer;
+		transition: background var(--wp--custom--transition), border-color var(--wp--custom--transition), color var(--wp--custom--transition);
+	}
+
+	body.setin-fit .setin-tabs__tab:hover { border-color: var(--wp--preset--color--base); }
+	body.setin-fit .setin-tabs__tab:focus-visible { outline: 3px solid var(--wp--preset--color--accent); outline-offset: 2px; }
+	body.setin-fit .setin-tabs__tab[aria-selected="true"] { border-color: var(--wp--preset--color--accent); background: var(--wp--preset--color--accent); color: var(--wp--preset--color--contrast); }
+
+	/* La pestaña ya dice qué parte es: sin antetítulo y con menos aire arriba. */
+	body.setin-fit.has-setin-tabs .setin-tabs__panel .setin-eyebrow { display: none; }
+	body.setin-fit.has-setin-tabs main > .entry-content > .setin-tabs__panels { padding-top: clamp(1rem, 3vh, 1.75rem) !important; }
+
+	/* Quiénes somos: texto a lo ancho y la foto a la altura de la pestaña. */
+	body.setin-fit .setin-tabs__panel > .wp-block-columns:has(.setin-rounded) { gap: clamp(2rem, 4vw, 4rem); align-items: flex-start !important; }
+	body.setin-fit .setin-tabs__panel > .wp-block-columns:has(.setin-rounded) > .wp-block-column { align-self: flex-start !important; }
+	body.setin-fit .setin-tabs__panel .wp-block-column > :first-child { margin-top: 0 !important; }
+	body.setin-fit .setin-tabs__panel .wp-block-column:has(> .setin-rounded:only-child) { flex: 0 0 32% !important; }
+	@media (max-width: 1199px) and (max-height: 799px) {
+		/* Portátiles estrechos y bajos: sin la foto, el texto usa todo el ancho. */
+		body.setin-fit .setin-tabs__panel .wp-block-column:has(> .setin-rounded:only-child) { display: none; }
+		body.setin-fit .setin-tabs__panel .wp-block-column:not(:has(> .setin-rounded:only-child)) { flex: 1 1 100% !important; max-width: none; }
+	}
+
+	@media (max-width: 1199px) {
+		/* Portátiles estrechos: tarjetas y textos algo más compactos. */
+		body.setin-fit .setin-pillar { padding: 1rem 1.25rem; }
+		body.setin-fit .setin-pillar .wp-block-image img { width: 36px !important; height: 36px !important; }
+		body.setin-fit .setin-pillar h3 { margin-top: .5rem; }
+		body.setin-fit .setin-pillar p { font-size: .875rem; line-height: 1.55; }
+		body.setin-fit .setin-tabs__panel p:not(.setin-eyebrow) { font-size: .9375rem !important; line-height: 1.55; }
+		body.setin-fit .setin-tabs__panel p.has-large-font-size { font-size: 1rem !important; }
+	}
+
+	body.setin-fit .setin-tabs__panel .setin-rounded img {
+		aspect-ratio: auto !important;
+		width: 100%;
+		height: min(var(--setin-avail) - 4.5rem, 26rem);
+		object-fit: cover;
+	}
+
+	body.setin-fit .setin-tabs__panel .wp-block-column > * + * { margin-block-start: .7rem !important; }
+	body.setin-fit .setin-tabs__panel p:not(.setin-eyebrow) { color: rgba(255, 255, 255, .78); font-size: 1rem !important; line-height: 1.6; }
+	body.setin-fit .setin-tabs__panel p.has-large-font-size { color: var(--wp--preset--color--base); font-size: 1.125rem !important; }
+	body.setin-fit .setin-tabs__panel > .wp-block-group + .wp-block-columns { margin-top: 1.25rem !important; }
+
+	/* Contacto: título y datos a la izquierda, formulario a la derecha a toda la altura. */
+	body.setin-fit main:has(.setin-form-card) {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.75fr);
+		grid-template-rows: auto 1fr;
+		grid-template-areas: "title form" "info form";
+		align-content: start;
+		gap: 1.75rem clamp(2rem, 5vw, 5rem);
+		padding: var(--setin-top) max(var(--wp--style--root--padding-left), (100% - var(--wp--style--global--wide-size)) / 2) calc(var(--setin-foot-h) + var(--setin-gap-v));
+	}
+
+	body.setin-fit main:has(.setin-form-card) > .entry-content,
+	body.setin-fit main:has(.setin-form-card) > .entry-content > :not(.setin-page-hero),
+	body.setin-fit main:has(.setin-form-card) .wp-block-columns:has(.setin-form-card) { display: contents !important; }
+
+	body.setin-fit main:has(.setin-form-card) .setin-page-hero { grid-area: title; height: auto; margin-inline: 0 !important; padding: 0 !important; }
+	body.setin-fit main:has(.setin-form-card) .setin-page-hero .wp-block-cover__inner-container > .wp-block-group { display: block; }
+	body.setin-fit main:has(.setin-form-card) .setin-page-hero .wp-block-group > * + * { margin-top: .6rem; }
+	body.setin-fit main:has(.setin-form-card) .wp-block-column:not(:has(.setin-form-card)) { grid-area: info; align-self: start; }
+	body.setin-fit main:has(.setin-form-card) .wp-block-column:has(.setin-form-card) { grid-area: form; align-self: center; }
+	body.setin-fit main:has(.setin-form-card) .wp-block-column:not(:has(.setin-form-card)) > h2 { display: none; }
+
+	body.setin-fit .setin-contact { gap: clamp(.75rem, 2vh, 1.25rem); }
+	body.setin-fit .setin-contact dt { color: rgba(255, 255, 255, .6); }
+	body.setin-fit .setin-contact dd { color: var(--wp--preset--color--base); font-size: 1.125rem; }
+	body.setin-fit .setin-contact a { color: inherit; }
+
+	body.setin-fit .setin-form-card {
+		padding: clamp(1rem, 2.5vh, 2rem) clamp(1.25rem, 2vw, 2rem);
+		color: var(--wp--preset--color--contrast);
+		box-shadow: 0 24px 60px rgba(0, 0, 0, .35);
+	}
+
+	body.setin-fit .setin-form-card > h3 { display: none; }
+	body.setin-fit .setin-form-card > * { margin-block-start: 0 !important; }
+	body.setin-fit .wpcf7-form .setin-form { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.5rem, 1.3vh, 1rem) 1rem; }
+	body.setin-fit .wpcf7-form .setin-form > .is-full { grid-column: 1 / -1; }
+	/* Fotos (8.º campo, con su aviso) ocupa dos columnas junto a la fecha. */
+	body.setin-fit .wpcf7-form .setin-form > :nth-child(8) { grid-column: span 2; }
+	/* Casilla de privacidad y botón en la misma fila; el aviso legal debajo, a lo ancho (order lo pasa al final). */
+	body.setin-fit .wpcf7-form .setin-form > :nth-child(11) { grid-column: 1 / 3; align-self: center; }
+	body.setin-fit .wpcf7-form .setin-form > .setin-form__legal { order: 1; grid-column: 1 / -1; font-size: .75rem; line-height: 1.45; }
+	body.setin-fit .wpcf7-form .setin-form > :last-child { grid-column: 3; align-self: center; justify-self: end; }
+	body.setin-fit .wpcf7-form label { gap: .3rem; font-size: .875rem; line-height: 1.2; }
+	/* El campo antispam (oculto) no debe ocupar una fila de la rejilla. */
+	body.setin-fit .wpcf7-form .setin-form > span,
+	body.setin-fit .wpcf7-form .wpcf7-spinner { position: absolute; }
+	body.setin-fit .wpcf7-form input:not([type="checkbox"]):not([type="submit"]):not([type="file"]),
+	body.setin-fit .wpcf7-form select { min-height: 2.5rem; padding: .4rem .85rem; }
+	body.setin-fit .wpcf7-form input[type="file"] { padding: .45rem; }
+	body.setin-fit .wpcf7-form textarea { height: clamp(2.75rem, 8.5vh, 7rem); min-height: 2.75rem; }
+	body.setin-fit .wpcf7-form .wpcf7-submit { min-height: 2.75rem; padding: .6rem 1.75rem; }
+	body.setin-fit .setin-form__hint { font-size: .75rem; }
+}
+
+/* 13. Ficha de cada servicio en una pantalla (ordenador) ----------------------
+ *
+ * Sobre la foto del servicio: título arriba; a la izquierda el texto y la galería, a la
+ * derecha "Qué incluye". "Más especialidades" no se muestra aquí (los servicios están en el
+ * menú). Se apoya en la sección 12.
+ */
+
+@media (min-width: 900px) and (min-height: 560px) {
+	body.setin-fit-ficha main {
+		display: grid;
+		grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+		grid-template-areas: "title title" "text incl" "gal incl";
+		align-content: start;
+		gap: clamp(.75rem, 2.5vh, 1.5rem) clamp(2rem, 4vw, 4rem);
+		padding: var(--setin-top) max(var(--wp--style--root--padding-left), (100% - var(--wp--style--global--wide-size)) / 2) calc(var(--setin-foot-h) + var(--setin-gap-v));
+	}
+
+	body.setin-fit-ficha main > .wp-block-group:has(.setin-ficha-puntos),
+	body.setin-fit-ficha main .wp-block-columns:has(.setin-ficha-puntos) { display: contents !important; }
+
+	body.setin-fit-ficha main > .is-style-section-light:has(.setin-cards) { display: none !important; }
+
+	body.setin-fit-ficha .setin-page-hero { grid-area: title; margin: 0 0 clamp(.25rem, 2vh, 1.25rem) !important; padding: 0 !important; }
+	body.setin-fit-ficha .setin-page-hero .wp-block-cover__inner-container > .wp-block-group > * { margin: 0; }
+	body.setin-fit-ficha .setin-page-hero .setin-ficha-intro { grid-column: 2; grid-row: 1 / span 2; }
+	body.setin-fit-ficha .setin-ficha-intro__num { margin-bottom: .4rem; font-size: 1rem; }
+	body.setin-fit-ficha .setin-ficha-intro__desc { max-width: none; color: rgba(255, 255, 255, .82); font-size: 1rem; }
+
+	body.setin-fit-ficha .wp-block-column:has(.wp-block-post-content) { grid-area: text; align-self: start; }
+	body.setin-fit-ficha .wp-block-post-content { font-size: clamp(.9375rem, 2vh, 1.0625rem) !important; line-height: 1.6; }
+	body.setin-fit-ficha .wp-block-post-content > * + * { margin-block-start: .75em; }
+	body.setin-fit-ficha .wp-block-post-content p { color: rgba(255, 255, 255, .82); }
+
+	/* Galería: tres fotos en una fila bajo el texto. */
+	body.setin-fit-ficha main > .wp-block-group:has(.setin-gallery__grid) { grid-area: gal; align-self: end; padding: 0 !important; }
+	body.setin-fit-ficha main > .wp-block-group:has(.setin-gallery__grid) > * { max-width: none; margin: 0 !important; }
+	body.setin-fit-ficha .setin-gallery__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
+	body.setin-fit-ficha .setin-gallery__item { aspect-ratio: auto; height: clamp(5.5rem, 20vh, 12rem); border-radius: 14px; }
+
+	/* Qué incluye: tarjeta de cristal a la derecha, a toda la altura. */
+	body.setin-fit-ficha .wp-block-column:has(.setin-ficha-puntos) { grid-area: incl; align-self: stretch; display: flex; }
+	body.setin-fit-ficha .wp-block-column:has(.setin-ficha-puntos) > .is-style-section-light {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		box-sizing: border-box;
+		padding: clamp(1.25rem, 3.5vh, 2.25rem) clamp(1.25rem, 2.2vw, 2.25rem) !important;
+		border: 1px solid rgba(255, 255, 255, .14);
+		background: rgba(255, 255, 255, .07) !important;
+		-webkit-backdrop-filter: blur(8px);
+		backdrop-filter: blur(8px);
+		color: var(--wp--preset--color--base);
+	}
+	body.setin-fit-ficha .setin-ficha-puntos__title { margin-bottom: clamp(.75rem, 2.5vh, 1.25rem); color: var(--wp--preset--color--base); font-size: clamp(1.5rem, 2.2vw, 2rem); }
+	body.setin-fit-ficha .setin-checklist { gap: clamp(.5rem, 1.6vh, .9rem); }
+	body.setin-fit-ficha .setin-checklist li { color: rgba(255, 255, 255, .88); font-size: clamp(.9375rem, 2vh, 1.0625rem); }
+}
+
+@media (min-width: 900px) and (min-height: 560px) {
+	/* La ficha mide justo la pantalla: la galería ocupa el hueco que deje el texto. */
+	body.setin-fit-ficha main { height: var(--setin-fit-h); grid-template-rows: auto auto minmax(0, 1fr); }
+	body.setin-fit-ficha .setin-page-hero h1 { font-size: clamp(2rem, 3.2vw, 3rem) !important; }
+	body.setin-fit-ficha .setin-page-hero .wp-block-cover__inner-container > .wp-block-group { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); column-gap: clamp(2rem, 4vw, 4rem); }
+	body.setin-fit-ficha .wp-block-column:has(.wp-block-post-content) { min-height: 0; }
+	body.setin-fit-ficha .wp-block-post-content { font-size: clamp(.875rem, 1.9vh, 1.0625rem) !important; line-height: 1.55; }
+	body.setin-fit-ficha main > .wp-block-group:has(.setin-gallery__grid) { align-self: stretch; min-height: 0; }
+	body.setin-fit-ficha main > .wp-block-group:has(.setin-gallery__grid) > .setin-gallery,
+	body.setin-fit-ficha .setin-gallery__grid { height: 100%; }
+	body.setin-fit-ficha .setin-gallery__grid > li { min-height: 0; }
+	body.setin-fit-ficha .setin-gallery__item { height: 100%; max-height: 13rem; }
+	/* "Qué incluye" a la altura del texto y la galería, no de toda la pantalla. */
+	body.setin-fit-ficha .wp-block-column:has(.setin-ficha-puntos) { align-self: start; }
+}
+
+/* Botón "Volver a servicios" de las fichas (patrón setin/ficha-antetitulo). */
+.setin-back { margin: 0; }
+.setin-back a {
+	display: inline-flex;
+	align-items: center;
+	gap: .5rem;
+	min-height: 2.5rem;
+	padding: 0 1.1rem 0 .9rem;
+	border: 1.5px solid rgba(255, 255, 255, .35);
+	border-radius: 999px;
+	background: rgba(22, 22, 22, .35);
+	color: var(--wp--preset--color--base);
+	font: 600 .875rem/1 var(--wp--preset--font-family--heading);
+	letter-spacing: .06em;
+	text-decoration: none;
+	text-transform: uppercase;
+	transition: background var(--wp--custom--transition), border-color var(--wp--custom--transition), color var(--wp--custom--transition);
+}
+.setin-back a:hover,
+.setin-back a:focus-visible { border-color: var(--wp--preset--color--accent); background: var(--wp--preset--color--accent); color: var(--wp--preset--color--contrast); }
+.setin-back a:focus-visible { outline: 3px solid var(--wp--preset--color--accent); outline-offset: 3px; }
+
+@media (min-width: 900px) and (min-height: 560px) {
+	/* Ficha: el texto y su galería, sobre un panel de cristal oscuro para que se lean bien. */
+	body.setin-fit-ficha .setin-page-hero .setin-back { margin-bottom: .6rem; }
+	body.setin-fit-ficha .wp-block-column:has(.wp-block-post-content),
+	body.setin-fit-ficha main > .wp-block-group:has(.setin-gallery__grid) {
+		background: rgba(22, 22, 22, .62);
+		-webkit-backdrop-filter: blur(10px);
+		backdrop-filter: blur(10px);
+	}
+	body.setin-fit-ficha .wp-block-column:has(.wp-block-post-content) {
+		padding: clamp(1rem, 3vh, 1.75rem) clamp(1.25rem, 2.2vw, 2rem) .5rem;
+		border: 1px solid rgba(255, 255, 255, .12);
+		border-bottom: 0;
+		border-radius: 22px 22px 0 0;
+	}
+	body.setin-fit-ficha main > .wp-block-group:has(.setin-gallery__grid) {
+		padding: .75rem clamp(1.25rem, 2.2vw, 2rem) clamp(1rem, 3vh, 1.75rem) !important;
+		border: 1px solid rgba(255, 255, 255, .12);
+		border-top: 0;
+		border-radius: 0 0 22px 22px;
+	}
+	/* Sin hueco entre las dos mitades del panel. */
+	body.setin-fit-ficha main { row-gap: 0; }
+	body.setin-fit-ficha .setin-page-hero { margin-bottom: clamp(1rem, 3vh, 1.75rem) !important; }
+	body.setin-fit-ficha .wp-block-post-content p { color: rgba(255, 255, 255, .9); }
+	/* "Qué incluye" con el mismo cristal oscuro y a la altura del panel de texto. */
+	body.setin-fit-ficha .wp-block-column:has(.setin-ficha-puntos) { align-self: start; grid-row: 2 / span 2; }
+	body.setin-fit-ficha .wp-block-column:has(.setin-ficha-puntos) > .is-style-section-light { background: rgba(22, 22, 22, .62) !important; border-color: rgba(255, 255, 255, .12); border-radius: 22px !important; }
+	/* El fondo, algo más oscuro en las fichas. */
+	body.setin-fit-ficha .setin-page-hero > .wp-block-cover__background { background: rgba(22, 22, 22, .8) !important; }
+}
+
+/* 14. Formulario de presupuesto, más moderno --------------------------------- */
+
+.setin-form-card .wpcf7-form input:not([type="checkbox"]):not([type="submit"]):not([type="file"]),
+.setin-form-card .wpcf7-form select,
+.setin-form-card .wpcf7-form textarea {
+	border: 1.5px solid transparent;
+	border-radius: 14px;
+	background-color: #f2f2ef;
+	transition: background-color var(--wp--custom--transition), border-color var(--wp--custom--transition), box-shadow var(--wp--custom--transition);
+}
+
+.setin-form-card .wpcf7-form input:not([type="checkbox"]):not([type="submit"]):not([type="file"]):hover,
+.setin-form-card .wpcf7-form select:hover,
+.setin-form-card .wpcf7-form textarea:hover { background-color: #ebebe7; }
+
+.setin-form-card .wpcf7-form input:not([type="checkbox"]):not([type="submit"]):not([type="file"]):focus,
+.setin-form-card .wpcf7-form select:focus,
+.setin-form-card .wpcf7-form textarea:focus {
+	border-color: var(--wp--preset--color--contrast);
+	background-color: #fff;
+	box-shadow: 0 0 0 4px rgba(232, 196, 47, .45);
+}
+
+/* Desplegable con flecha propia. */
+.setin-form-card .wpcf7-form select {
+	-webkit-appearance: none;
+	appearance: none;
+	padding-right: 2.75rem !important;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23161616' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+	background-position: right 1rem center;
+	background-repeat: no-repeat;
+	background-size: 1.1rem;
+	cursor: pointer;
+	text-overflow: ellipsis;
+}
+
+.setin-form-card .wpcf7-form select option { color: var(--wp--preset--color--contrast); }
+
+/* Subida de fotos: zona punteada con botón negro redondeado. */
+.setin-form-card .wpcf7-form input[type="file"] {
+	border: 1.5px dashed #c9c9c4;
+	border-radius: 14px;
+	background: #f7f7f5;
+	color: var(--wp--preset--color--graphite);
+	cursor: pointer;
+}
+
+.setin-form-card .wpcf7-form input[type="file"]::file-selector-button {
+	margin-right: .75rem;
+	padding: .45rem 1rem;
+	border: 0;
+	border-radius: 999px;
+	background: var(--wp--preset--color--contrast);
+	color: var(--wp--preset--color--base);
+	font: 600 .8125rem/1 var(--wp--preset--font-family--heading);
+	letter-spacing: .05em;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+.setin-form-card .wpcf7-form input[type="file"]:hover::file-selector-button { background: var(--wp--preset--color--accent); color: var(--wp--preset--color--contrast); }
+
+/* Casilla de privacidad con el color de la marca. */
+.setin-form-card .wpcf7-form .wpcf7-acceptance input { accent-color: var(--wp--preset--color--accent); }
+
+/* Botón de enviar: amarillo de la marca con flecha al pasar el ratón. */
+.setin-form-card .wpcf7-form .wpcf7-submit {
+	background: var(--wp--preset--color--accent);
+	color: var(--wp--preset--color--contrast);
+	box-shadow: 0 10px 24px rgba(232, 196, 47, .35);
+	transition: transform var(--wp--custom--transition), box-shadow var(--wp--custom--transition), background var(--wp--custom--transition);
+}
+
+.setin-form-card .wpcf7-form .wpcf7-submit:hover,
+.setin-form-card .wpcf7-form .wpcf7-submit:focus-visible {
+	background: var(--wp--preset--color--contrast);
+	color: var(--wp--preset--color--base);
+	box-shadow: 0 10px 24px rgba(0, 0, 0, .25);
+	transform: translateY(-2px);
+}
+
+.setin-form-card { border-radius: 28px; }
+
+/* 15. Ficha de cada proyecto en una pantalla (ordenador) ----------------------
+ *
+ * Como las de servicio: sobre la foto, título arriba; a la izquierda el texto en un panel
+ * de cristal oscuro y a la derecha las fotos llenando el alto. Se apoya en la sección 12.
+ */
+
+@media (min-width: 900px) and (min-height: 560px) {
+	body.setin-fit-proyecto main {
+		display: grid;
+		height: var(--setin-fit-h);
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+		grid-template-rows: auto minmax(0, 1fr);
+		grid-template-areas: "title title" "text gal";
+		align-content: start;
+		gap: clamp(1rem, 3vh, 1.75rem) clamp(1.5rem, 3vw, 3rem);
+		padding: var(--setin-top) max(var(--wp--style--root--padding-left), (100% - var(--wp--style--global--wide-size)) / 2) calc(var(--setin-foot-h) + var(--setin-gap-v));
+	}
+
+	body.setin-fit-proyecto .setin-page-hero { grid-area: title; margin: 0 !important; padding: 0 !important; }
+	body.setin-fit-proyecto .setin-page-hero .wp-block-cover__inner-container > .wp-block-group { display: block; }
+	body.setin-fit-proyecto .setin-page-hero .wp-block-group > * { margin: 0; }
+	body.setin-fit-proyecto .setin-page-hero .setin-back { margin-bottom: .6rem; }
+	body.setin-fit-proyecto .setin-page-hero .setin-eyebrow { margin-bottom: .35rem; }
+	body.setin-fit-proyecto .setin-page-hero .setin-eyebrow a { color: inherit; text-decoration: none; }
+	body.setin-fit-proyecto .setin-page-hero h1 { font-size: clamp(2rem, 3.2vw, 3rem) !important; }
+	body.setin-fit-proyecto .setin-page-hero > .wp-block-cover__background { background: rgba(22, 22, 22, .8) !important; }
+
+	/* Texto en su panel. */
+	body.setin-fit-proyecto main > .wp-block-group:has(.wp-block-post-content) {
+		grid-area: text;
+		align-self: start;
+		box-sizing: border-box;
+		max-height: 100%;
+		overflow: auto;
+		padding: clamp(1rem, 3vh, 1.75rem) clamp(1.25rem, 2.2vw, 2rem) !important;
+		border: 1px solid rgba(255, 255, 255, .12);
+		border-radius: 22px;
+		background: rgba(22, 22, 22, .62);
+		-webkit-backdrop-filter: blur(10px);
+		backdrop-filter: blur(10px);
+	}
+	body.setin-fit-proyecto .wp-block-post-content,
+	body.setin-fit-proyecto .wp-block-post-content > * { max-width: none !important; margin-inline: 0 !important; }
+	body.setin-fit-proyecto .wp-block-post-content { font-size: clamp(.9375rem, 2vh, 1.0625rem) !important; line-height: 1.6; }
+	body.setin-fit-proyecto .wp-block-post-content p { color: rgba(255, 255, 255, .9); }
+
+	/* Fotos: llenan el alto disponible. */
+	body.setin-fit-proyecto main > .wp-block-group:has(.setin-gallery__grid) { grid-area: gal; min-height: 0; padding: 0 !important; }
+	body.setin-fit-proyecto main > .wp-block-group:has(.setin-gallery__grid) > * { max-width: none; height: 100%; margin: 0 !important; }
+	body.setin-fit-proyecto .setin-gallery__grid { height: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(0, 1fr); gap: .75rem; }
+	body.setin-fit-proyecto .setin-gallery__grid > li { min-height: 0; }
+	body.setin-fit-proyecto .setin-gallery__grid > li:only-child { grid-column: 1 / -1; }
+	body.setin-fit-proyecto .setin-gallery__item { height: 100%; aspect-ratio: auto; border-radius: 18px; }
+}
+
+/* Mapa: los puntos cerca del borde de arriba muestran el nombre debajo (patrón mapa-mundi). */
+.setin-worldmap__pin.is-below .setin-worldmap__label { top: calc(100% + 8px); bottom: auto; transform: translate(-50%, -4px); }
+.setin-worldmap__pin.is-below:hover .setin-worldmap__label,
+.setin-worldmap__pin.is-below:focus-visible .setin-worldmap__label,
+.setin-worldmap__pin.is-below.is-open .setin-worldmap__label { transform: translate(-50%, 0); }
+
+@media (min-width: 900px) and (min-height: 560px) {
+	/* Ficha de servicio: un panel para el texto y otro, aparte, para las fotos. */
+	body.setin-fit-ficha main { row-gap: clamp(.75rem, 2vh, 1.25rem); }
+	body.setin-fit-ficha .wp-block-column:has(.wp-block-post-content) {
+		padding-bottom: clamp(1rem, 3vh, 1.75rem);
+		border-bottom: 1px solid rgba(255, 255, 255, .12);
+		border-radius: 22px;
+	}
+	body.setin-fit-ficha main > .wp-block-group:has(.setin-gallery__grid) {
+		align-self: start;
+		max-height: 100%;
+		padding: clamp(.75rem, 2vh, 1rem) !important;
+		border-top: 1px solid rgba(255, 255, 255, .12);
+		border-radius: 22px;
+	}
+	body.setin-fit-ficha main > .wp-block-group:has(.setin-gallery__grid) > .setin-gallery,
+	body.setin-fit-ficha .setin-gallery__grid { height: auto; }
+	body.setin-fit-ficha .setin-gallery__item { height: clamp(4.5rem, 19vh, 11rem); max-height: none; }
+}
+
+@media (min-width: 900px) and (min-height: 560px) {
+	/*
+	 * El hueco de la galería es transparente y mide lo que queda hasta el pie; el panel va en su
+	 * interior, con el alto de las fotos, que se encogen si no caben (100cqh = alto del hueco).
+	 */
+	body.setin-fit-ficha main > .wp-block-group:has(.setin-gallery__grid) {
+		--setin-gal-pad: clamp(.75rem, 2vh, 1rem);
+		align-self: stretch;
+		container-type: size;
+		padding: 0 !important;
+		border: 0;
+		border-radius: 0;
+		background: none;
+		-webkit-backdrop-filter: none;
+		backdrop-filter: none;
+	}
+	body.setin-fit-ficha main > .wp-block-group:has(.setin-gallery__grid) > .setin-gallery {
+		box-sizing: border-box;
+		padding: var(--setin-gal-pad);
+		border: 1px solid rgba(255, 255, 255, .12);
+		border-radius: 22px;
+		background: rgba(22, 22, 22, .62);
+		-webkit-backdrop-filter: blur(10px);
+		backdrop-filter: blur(10px);
+	}
+	body.setin-fit-ficha .setin-gallery__item { height: min(11rem, 19vh, 100cqh - 2 * var(--setin-gal-pad) - 2px); }
+}
+
+@media (min-width: 900px) and (min-height: 560px) {
+	/* Ficha: texto a la izquierda a todo el alto; a la derecha "Qué incluye" y, debajo, las fotos. */
+	body.setin-fit-ficha main { grid-template-areas: "title title" "text incl" "text gal"; }
+	body.setin-fit-ficha .wp-block-column:has(.wp-block-post-content) { grid-row: 2 / span 2; align-self: start; max-height: 100%; overflow: auto; }
+	body.setin-fit-ficha .wp-block-column:has(.setin-ficha-puntos) { grid-row: 2; }
+	body.setin-fit-ficha .setin-gallery__grid { gap: .6rem; }
+	body.setin-fit-ficha .setin-gallery__item { height: min(10rem, 100cqh - 2 * var(--setin-gal-pad) - 2px); border-radius: 12px; }
+	@container (max-height: 5.5rem) {
+		body.setin-fit-ficha main > .wp-block-group:has(.setin-gallery__grid) > .setin-gallery { display: none; }
+	}
+}
+
+@media (min-width: 900px) and (min-height: 560px) {
+	/* Ficha en tres columnas: texto, "Qué incluye" y las fotos apiladas a todo el alto. */
+	body.setin-fit-ficha main {
+		grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, .75fr);
+		grid-template-rows: auto minmax(0, 1fr);
+		grid-template-areas: "title title title" "text incl gal";
+		column-gap: clamp(1rem, 2vw, 1.75rem);
+	}
+	body.setin-fit-ficha .wp-block-column:has(.wp-block-post-content),
+	body.setin-fit-ficha .wp-block-column:has(.setin-ficha-puntos) { grid-row: 2; }
+	body.setin-fit-ficha .wp-block-post-content { font-size: clamp(.875rem, 1.8vh, 1rem) !important; }
+	body.setin-fit-ficha .setin-ficha-puntos__title { font-size: clamp(1.375rem, 2vw, 1.75rem); }
+	body.setin-fit-ficha .setin-checklist li { font-size: clamp(.875rem, 1.8vh, 1rem); }
+	body.setin-fit-ficha main > .wp-block-group:has(.setin-gallery__grid) { grid-row: 2; }
+	body.setin-fit-ficha .setin-gallery__grid { grid-template-columns: 1fr; gap: .6rem; }
+	body.setin-fit-ficha .setin-gallery__item { height: min(11rem, (100cqh - 2 * var(--setin-gal-pad) - 2px - 1.2rem) / 3); }
+}

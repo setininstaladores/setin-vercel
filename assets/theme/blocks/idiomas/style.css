@@ -1,0 +1,36 @@
+/**
+ * Selector de idioma ES | EN en la cabecera.
+ */
+.setin-langs {
+	display: flex;
+	flex: none;
+	align-items: center;
+	gap: .35rem;
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: .08em;
+}
+
+.setin-langs__sep { color: rgba(255, 255, 255, .35); }
+
+.setin-langs__link {
+	display: inline-grid;
+	place-items: center;
+	min-width: 2.5rem;
+	min-height: 2.5rem;
+	border-radius: 999px;
+	color: rgba(255, 255, 255, .65) !important;
+	text-decoration: none;
+	transition: color 200ms, background 200ms;
+}
+
+.setin-langs__link:hover,
+.setin-langs__link:focus-visible {
+	color: var(--wp--preset--color--base) !important;
+}
+
+.setin-langs__link[aria-current="true"] {
+	background: var(--wp--preset--color--accent);
+	color: var(--wp--preset--color--contrast) !important;
+}

@@ -1,0 +1,29 @@
+WEB DE SETIN EN HTML, LISTA PARA VERCEL
+=======================================
+
+Subir a Vercel
+--------------
+1. Sube esta carpeta tal cual a un repositorio de GitHub, o usa "vercel" desde la línea de comandos dentro de ella.
+2. En Vercel: Add New > Project. En Framework Preset elige "Other".
+   No hace falta comando de compilación.
+
+Formulario de Contacto
+----------------------
+Un HTML no puede enviar correos por sí solo. El formulario usa la función api/presupuesto.mjs,
+que envía los correos con el servicio Resend (resend.com).
+
+1. Crea una cuenta en Resend y verifica el dominio setininstaladores.com.
+2. Crea una API key.
+3. En Vercel: Settings > Environment Variables, añade:
+     RESEND_API_KEY   la clave de Resend (obligatoria)
+     MAIL_TO          quien recibe las solicitudes (por defecto instaladores@setininstaladores.com)
+     MAIL_FROM        remitente (por defecto Web SETIN <instaladores@setininstaladores.com>)
+4. Vuelve a desplegar el proyecto y envía una solicitud de prueba.
+
+Hasta que no esté la clave, el formulario muestra un mensaje de error al enviar.
+Vercel limita cada envío a 4,5 MB, por eso el adjunto máximo es de 4 MB.
+
+Dominio
+-------
+Las direcciones para Google (canonical, sitemap.xml, robots.txt, etc.) usan https://setininstaladores.com.
+Si la web va a otro dominio, hay que cambiarlo en esos archivos.
